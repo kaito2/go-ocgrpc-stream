@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package grpcstream;
+
+message SampleRequest {
+    string message = 1;
+}
+
+message SampleResponse {
+    string message = 1;
+}
+
+service SampleStream {
+    rpc GetSampleResponse(SampleRequest) returns (stream SampleResponse) {}
+}
