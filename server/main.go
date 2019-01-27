@@ -43,7 +43,7 @@ func main() {
 		log.Fatalf("error creating a tracing client: %v", err)
 	}
 
-	recorder, err := gcloudtracer.NewRecorder(context.Background(), "sansigma-infra", ocClient)
+	recorder, err := gcloudtracer.NewRecorder(context.Background(), "sansigma-infra", gcloudtracer.TraceClient(ocClient))
 	if err != nil {
 		log.Fatalf("error creating a recorder: %v", err)
 	}
