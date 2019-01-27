@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"github.com/grpc-ecosystem/grpc-opentracing/go/otgrpc"
 	"go-ocgrpc-stream-try/protos"
 	"google.golang.org/grpc"
 	"io"
@@ -28,9 +29,10 @@ func main() {
 		log.Fatalf("error creating a recorder: %v", err)
 	}
 	defer recorder.Close()
-	opentracing.InitGlobalTracer(basictracer.New(recorder))
+	tracer := basictracer.New(recorder)
+	opentracing.InitGlobalTracer(tracer)
 
-	conn, err := grpc.Dial(address, grpc.WithInsecure())
+	conn, err := grpc.Dial(address, grpc.WithInsecure(), grpc.WithStreamInterceptor(otgrpc.OpenTracingStreamClientInterceptor(tracer)))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -43,7 +45,9 @@ func main() {
 		log.Fatal(err)
 	}
 	for {
-		span, _ := opentracing.StartSpanFromContext(context.Background(), "opentracing_sample")
+		ctx := stream.Context()
+		log.Print(ctx)
+		span, _ := opentracing.StartSpanFromContext(ctx, "opentracing_sample")
 		feature, err := stream.Recv()
 		if err == io.EOF { // サーバ側でストリーミングが正常に終了(return nil)された
 			break
