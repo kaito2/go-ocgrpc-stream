@@ -1,6 +1,7 @@
 package main
 
 import (
+	"cloud.google.com/go/trace/apiv1"
 	"context"
 	"github.com/grpc-ecosystem/grpc-opentracing/go/otgrpc"
 	"github.com/lovoo/gcloud-opentracing"
@@ -11,7 +12,6 @@ import (
 	"log"
 	"net"
 	"time"
-	trace "cloud.google.com/go/trace/apiv1"
 )
 
 const (

@@ -1,20 +1,21 @@
 package main
 
 import (
+	"cloud.google.com/go/trace/apiv1"
 	"context"
 	"github.com/grpc-ecosystem/grpc-opentracing/go/otgrpc"
+	"github.com/lovoo/gcloud-opentracing"
+	"github.com/opentracing/basictracer-go"
+	"github.com/opentracing/opentracing-go"
 	"go-ocgrpc-stream-try/protos"
 	"google.golang.org/grpc"
 	"io"
 	"log"
-	trace "cloud.google.com/go/trace/apiv1"
-	gcloudtracer "github.com/lovoo/gcloud-opentracing"
-	opentracing "github.com/opentracing/opentracing-go"
-	basictracer "github.com/opentracing/basictracer-go"
 )
 
 const (
-	address = "localhost:50051"
+	//address = "localhost:50051"
+	address = "34.73.89.238:50051"
 )
 
 func main() {
